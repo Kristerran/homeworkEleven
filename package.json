@@ -1,0 +1,29 @@
+{
+  "name": "homeworkeleven",
+  "version": "1.0.0",
+  "description": "Employer database menu",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kristerran/homeworkEleven.git"
+  },
+  "keywords": [
+    "Employee",
+    "database"
+  ],
+  "author": "Kris Terran Baily",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kristerran/homeworkEleven/issues"
+  },
+  "homepage": "https://github.com/Kristerran/homeworkEleven#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.1.5",
+    "inquirer-menu": "^1.0.0",
+    "mysql2": "^2.3.0"
+  }
+}

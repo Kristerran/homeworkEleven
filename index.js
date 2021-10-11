@@ -1,67 +1,60 @@
 const inquirer = require("inquirer");
-
+const mysql = require("connection")
 // You’ll need to use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries, the [Inquirer package](https://www.npmjs.com/package/inquirer) to interact with the user via the command line, and the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
-const mysql2 = require("mysql2")
-
-const connection = mysql2.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Ju66l3my!',
-    database: 'employee_db'
-});
 
 const menu = require('inquirer-menu');
+
 const viewAllDept = {
-  message: 'red-menu',
+  message: 'View All Departments',
   choices: {
     callApi: function() {
-      console.log('red-api called');
+
       return;
     }
   }
 };
 
 const updateEmpRole = {
-    message: 'blue-menu',
+    message: 'Update Employee Role',
     choices: {
       callApi: function() {
-        console.log('blue-api called');
+
         return;
       }
     }
   };
 const addAnEmp = {
-    message: 'blue-menu',
+    message: 'Add An Employee',
     choices: {
       callApi: function() {
-        console.log('blue-api called');
+
         return;
       }
     }
   };
   const addARole = {
-    message: 'blue-menu',
+    message: 'Add A Role',
     choices: {
       callApi: function() {
-        console.log('blue-api called');
+
         return;
       }
     }
   };
 const addADept = {
-    message: 'blue-menu',
+    message: 'Add A Department',
     choices: {
       callApi: function() {
-        console.log('blue-api called');
+
         return;
       }
     }
   };
 const viewAllRoles = {
-  message: 'blue-menu',
+  message: 'View All Roles',
   choices: {
     callApi: function() {
-      console.log('blue-api called');
+
       return;
     }
   }
@@ -74,8 +67,7 @@ const endProgram = {
         return;
       },
       No: function() {
-        console.log('blue-api called');
-        return;
+
       }
     }
   };
@@ -86,18 +78,19 @@ function createMenu() {
   return {
     message: 'Welcome to the Employee Database Handler',
     choices: {
-      setupData: function() {
-        level++;
-        console.log('success');
+      // setupData: function() {
+      //   level++;
+      //   console.log('success');
  
-        return;
-      },
+      //   return;
+      // },
       viewAllDept: viewAllDept,
       viewAllRoles: viewAllRoles,
       addADept: addADept,
       addARole: addARole,
       addAnEmp: addAnEmp,
-      updateEmpRole: updateEmpRole
+      updateEmpRole: updateEmpRole,
+      endProgram: endProgram
     }
   };
 };

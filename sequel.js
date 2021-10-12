@@ -1,7 +1,7 @@
-const mysql = require("connection")
+const mysql = require("./connection")
 
 class db {
-    constructor(mysql) {
+    constructor() {
         this.connection = mysql
     }
     findAllEmployees() {
@@ -11,7 +11,7 @@ class db {
     }
     findAllRoles() {
         return this.connection.promise().query(
-            "SELECT emp_role.;"
+            "SELECT emp_role.title, emp_role.salary, emp_roledept_id;"
         )
     }
     findAllDept() {

@@ -1,32 +1,39 @@
 const inquirer = require("inquirer");
-const mysql = require("connection")
+const mysql = require("./connection")
 // You’ll need to use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries, the [Inquirer package](https://www.npmjs.com/package/inquirer) to interact with the user via the command line, and the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
-
+db = require("./sequel")
 const menu = require('inquirer-menu');
+
+const getDept = async () => {
+  const dbData = await (db.findAllDept)
+
+  return await dbData.Json()
+}
 
 const viewAllDept = {
   message: 'View All Departments',
   choices: {
-    callApi: function() {
-
-      return;
+    testMe: function () {
+      let dbData = getDept()
+      console.log(dbData)
+      return
     }
   }
 };
 
-const updateEmpRole = {
+  const updateEmpRole = {
     message: 'Update Employee Role',
     choices: {
-      callApi: function() {
+      callApi: function () {
 
         return;
       }
     }
   };
-const addAnEmp = {
+  const addAnEmp = {
     message: 'Add An Employee',
     choices: {
-      callApi: function() {
+      callApi: function () {
 
         return;
       }
@@ -35,72 +42,71 @@ const addAnEmp = {
   const addARole = {
     message: 'Add A Role',
     choices: {
-      callApi: function() {
+      callApi: function () {
 
         return;
       }
     }
   };
-const addADept = {
+  const addADept = {
     message: 'Add A Department',
     choices: {
-      callApi: function() {
+      callApi: function () {
 
         return;
       }
     }
   };
-const viewAllRoles = {
-  message: 'View All Roles',
-  choices: {
-    callApi: function() {
+  const viewAllRoles = {
+    message: 'View All Roles',
+    choices: {
+      callApi: function () {
 
-      return;
+        return;
+      }
     }
-  }
-};
-const endProgram = {
+  };
+  const endProgram = {
     message: 'Are you ready to quit?',
     choices: {
-      Yes: function() {
-        process.end
+      Yes: function () {
+        process.exit
         return;
       },
-      No: function() {
+      No: function () {
 
       }
     }
   };
- 
-let level = 0;
- 
-function createMenu() {
-  return {
-    message: 'Welcome to the Employee Database Handler',
-    choices: {
-      // setupData: function() {
-      //   level++;
-      //   console.log('success');
- 
-      //   return;
-      // },
-      viewAllDept: viewAllDept,
-      viewAllRoles: viewAllRoles,
-      addADept: addADept,
-      addARole: addARole,
-      addAnEmp: addAnEmp,
-      updateEmpRole: updateEmpRole,
-      endProgram: endProgram
-    }
-  };
+
+  let level = 0;
+
+  function createMenu() {
+    return {
+      message: 'Welcome to the Employee Database Handler',
+      choices: {
+        // setupData: function() {
+        //   level++;
+        //   console.log('success');
+
+        //   return;
+        // },
+        viewAllDept: viewAllDept,
+        viewAllRoles: viewAllRoles,
+        addADept: addADept,
+        addARole: addARole,
+        addAnEmp: addAnEmp,
+        updateEmpRole: updateEmpRole,
+        endProgram: endProgram
+      }
+    };
 };
 
 menu(createMenu)
-  .then(function() {
-    console.log('Thank you for using the Employee Database Handler, Are you ready to quit?.');
-    exitApp()
+  .then(function () {
+    endProgram()
   })
-  .catch(function(err) {
+  .catch(function (err) {
     console.log(err.stack);
   });
 

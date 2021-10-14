@@ -7,4 +7,8 @@ const connection = mysql2.createConnection({
     database: 'employee_db'
 });
 
+connection.connect(function (err) {
+    if (err) throw err;
+})
+
 module.exports = connection

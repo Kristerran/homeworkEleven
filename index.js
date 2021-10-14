@@ -4,37 +4,74 @@ const mysql = require("./connection")
 db = require("./sequel")
 const menu = require('inquirer-menu');
 
-const getDept = async () => {
-  const dbData = await (db.findAllDept)
 
-  return await dbData.Json()
+const promptUpdate = () => {
+  inquirer.prompt([
+    {
+      name: 'employee',
+      message: 'Which employee did you want to update? (Please enter employee ID)'
+    },
+    {
+      name: 'role',
+      message: "What role would you like to give them? (Please enter role ID)"
+    }
+  ]).then((answers) => {
+    console.log(answers.employee, answers.role)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+  return
 }
+
+
+const viewAllEmployees = {
+  message: 'View All Departments',
+  choices: {
+    confirm: async () => {
+      const dbData = await db.findAllEmployees();
+      console.log(dbData);
+      return;
+    }
+  }
+};
+
 
 const viewAllDept = {
   message: 'View All Departments',
   choices: {
-    testMe: function () {
-      let dbData = getDept()
-      console.log(dbData)
-      return
+    confirm: async () => {
+      const dbData = await db.findAllDept();
+      console.log(dbData);
+      return;
+    }
+  }
+};
+
+const viewAllRoles = {
+  message: 'View All Roles',
+  choices: {
+    confirm: async () => {
+      const dbData = await db.findAllRoles();
+      console.log(dbData);
+      return;
     }
   }
 };
 
   const updateEmpRole = {
-    message: 'Update Employee Role',
+    message: 'Update an employee',
     choices: {
-      callApi: function () {
-
-        return;
+      confirm: async () => {
+      promptUpdate()
       }
     }
-  };
+  }
   const addAnEmp = {
     message: 'Add An Employee',
     choices: {
-      callApi: function () {
-
+      testMe: async () => {
+        console.log('REPLACE ME')
         return;
       }
     }
@@ -43,7 +80,7 @@ const viewAllDept = {
     message: 'Add A Role',
     choices: {
       callApi: function () {
-
+        console.log('REPLACE ME')
         return;
       }
     }
@@ -51,30 +88,9 @@ const viewAllDept = {
   const addADept = {
     message: 'Add A Department',
     choices: {
-      callApi: function () {
-
+      confirm: function () {
+        console.log('REPLACE ME')
         return;
-      }
-    }
-  };
-  const viewAllRoles = {
-    message: 'View All Roles',
-    choices: {
-      callApi: function () {
-
-        return;
-      }
-    }
-  };
-  const endProgram = {
-    message: 'Are you ready to quit?',
-    choices: {
-      Yes: function () {
-        process.exit
-        return;
-      },
-      No: function () {
-
       }
     }
   };
@@ -85,26 +101,21 @@ const viewAllDept = {
     return {
       message: 'Welcome to the Employee Database Handler',
       choices: {
-        // setupData: function() {
-        //   level++;
-        //   console.log('success');
-
-        //   return;
-        // },
+        viewAllEmployees,
         viewAllDept: viewAllDept,
         viewAllRoles: viewAllRoles,
         addADept: addADept,
         addARole: addARole,
         addAnEmp: addAnEmp,
-        updateEmpRole: updateEmpRole,
-        endProgram: endProgram
+        updateEmpRole: updateEmpRole
       }
     };
 };
 
 menu(createMenu)
-  .then(function () {
-    endProgram()
+  .then( function () {
+        console.log("Thank you for using the Employee Database Handler!")
+        process.exit(0)
   })
   .catch(function (err) {
     console.log(err.stack);

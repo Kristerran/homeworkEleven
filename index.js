@@ -1,137 +1,154 @@
 const inquirer = require("inquirer");
-const mysql = require("./connection")
+const mysql = require("./connection");
+const { insertADept, insertARole, insertAnEmp, updateARole } = require("./sequel");
 // You’ll need to use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries, the [Inquirer package](https://www.npmjs.com/package/inquirer) to interact with the user via the command line, and the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
 db = require("./sequel")
-const menu = require('inquirer-menu');
 
 
-const promptUpdate = () => {
-  inquirer.prompt([
-    {
-      name: 'employee',
-      message: 'Which employee did you want to update? (Please enter employee ID)'
-    },
-    {
-      name: 'role',
-      message: "What role would you like to give them? (Please enter role ID)"
-    }
-  ]).then((answers) => {
-    console.log(answers.employee, answers.role)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  return
+const viewAllEmployees = async () => {
+  const dbData = await db.findAllEmployees();
+  console.log(dbData)
+
 }
 
 
-const viewAllEmployees = {
-  message: 'View All Departments',
-  choices: {
-    confirm: async () => {
-      const dbData = await db.findAllEmployees();
-      console.log(dbData);
-      return;
-    }
+const viewAllDept = async () => {
+    const dbData = await db.findAllDept();
+    console.log(dbData);
   }
-};
 
 
-const viewAllDept = {
-  message: 'View All Departments',
-  choices: {
-    confirm: async () => {
-      const dbData = await db.findAllDept();
-      console.log(dbData);
-      return;
-    }
+  const viewAllRoles = async () => {
+    const dbData = await db.findAllRoles();
+    console.log(dbData);
   }
-};
 
-const viewAllRoles = {
-  message: 'View All Roles',
-  choices: {
-    confirm: async () => {
-      const dbData = await db.findAllRoles();
-      console.log(dbData);
-      return;
-    }
+
+  const addADept = async () => {
+    inquirer.prompt([
+      {
+        name: 'name',
+        message: 'What is the department name?'
+      },
+    ]).then((answer) => {
+      insertADept(answer.name)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
   }
-};
 
-  const updateEmpRole = {
-    message: 'Update an employee',
-    choices: {
-      confirm: async () => {
-      promptUpdate()
+  const addARole = async () => {
+    inquirer.prompt([
+      {
+        name: 'title',
+        message: 'What is the role title?'
+      },
+      {
+        name: 'salary',
+        message: "What is the role salary?"
+      },
+      {
+        name: 'dept_id',
+        message: 'What department is the role in? (Please enter number id of department)'
       }
-    }
+    ]).then((answer) => {
+      insertARole(answer.title, answer.salary, answer.dept_id)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
   }
-  const addAnEmp = {
-    message: 'Add An Employee',
-    choices: {
-      testMe: async () => {
-        console.log('REPLACE ME')
-        return;
-      }
-    }
-  };
-  const addARole = {
-    message: 'Add A Role',
-    choices: {
-      callApi: function () {
-        console.log('REPLACE ME')
-        return;
-      }
-    }
-  };
-  const addADept = {
-    message: 'Add A Department',
-    choices: {
-      confirm: function () {
-        console.log('REPLACE ME')
-        return;
-      }
-    }
-  };
 
-  let level = 0;
 
-  function createMenu() {
-    return {
-      message: 'Welcome to the Employee Database Handler',
-      choices: {
-        viewAllEmployees,
-        viewAllDept: viewAllDept,
-        viewAllRoles: viewAllRoles,
-        addADept: addADept,
-        addARole: addARole,
-        addAnEmp: addAnEmp,
-        updateEmpRole: updateEmpRole
+  const addAnEmp = async () => {
+    inquirer.prompt([
+      {
+        name: 'first_name',
+        message: 'What is the Employees first name?'
+      },
+      {
+        name: 'last_name',
+        message: "What is the employees last name?"
+      },
+      {
+        name: 'role_id',
+        message: 'What role is the employee? (Please enter number id of department)'
+      },
+      {
+        name: 'manager_id',
+        message: 'Who is the employees manager? (Please enter managers id number) (if no manager leave blank)'
       }
-    };
-};
+    ]).then((answer) => {
+      insertAnEmp(answer.first_name, answer.last_name, answer.role_id, answer.manager_id)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
-menu(createMenu)
-  .then( function () {
-        console.log("Thank you for using the Employee Database Handler!")
-        process.exit(0)
-  })
-  .catch(function (err) {
-    console.log(err.stack);
-  });
 
-// WHEN I choose to view all departments
-// THEN I am presented with a formatted table showing department names and department ids
-// WHEN I choose to view all roles
-// THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
-// WHEN I choose to view all employees
-// THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-// WHEN I choose to add a department
-// THEN I am prompted to enter the name of the department and that department is added to the database
-// WHEN I choose to add a role
-// THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-// WHEN I choose to add an employee
-// THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-// WHEN I choose to update an employee role
-// THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
+  const updateEmpRole = async () => {
+    inquirer.prompt([
+      {
+        name: 'employee',
+        message: 'Which employee did you want to update? (Please enter employee ID)'
+      },
+      {
+        name: 'role',
+        message: "What role would you like to give them? (Please enter role ID)"
+      }
+    ]).then((answers) => {
+      updateARole(answers.employee, answers.role)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
+  //MAIN MENU
+  function mainMenu() {
+    inquirer.prompt([
+      {
+        name: "menu",
+        message: "Welcome to the Employee Database Handler, use the arrow keys to select one of the options below!",
+        type: "list",
+        choices: ["viewAllEmployees", "viewAllDept", "viewAllRoles", "addADept", "addARole", "addAnEmp", "updateEmpRole"]
+      }
+    ])
+      .then(
+        //CALL FUNCTIONS BASED ON ANSWERS
+        function (answer) {
+          if (answer.menu == "viewAllEmployees") {
+            console.log('View All Employees');
+            viewAllEmployees();
+          }
+          else if (answer.menu == "viewAllDept") {
+            console.log('View All Departments');
+            viewAllDept();
+          }
+          else if (answer.menu == "viewAllRoles") {
+            console.log('View All Roles');
+            viewAllRoles();
+          }
+          else if (answer.menu == "addADept") {
+            console.log('Add A Dept');
+            addADept();
+          }
+          else if (answer.menu == "addARole") {
+            console.log('Add A Role');
+            addARole();
+          }
+          else if (answer.menu == "addAnEmp") {
+            console.log('Add An Emp');
+            addAnEmp();
+          }
+          else if (answer.menu == "updateEmpRole") {
+            console.log('Update Emp Role');
+            updateEmpRole();
+          }
+        }
+      );
+  }
+  mainMenu()

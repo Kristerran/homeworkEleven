@@ -7,7 +7,7 @@ db = require("./sequel")
 
 const viewAllEmployees = async () => {
   const dbData = await db.findAllEmployees();
-  console.table(dbData)
+  console.table(dbData[0])
 
 }
 

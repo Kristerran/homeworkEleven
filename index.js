@@ -21,7 +21,7 @@ const viewAllDept = async () => {
   const viewAllRoles = async () => {
     dbData = await db.findAllRoles()
     //This method does not work
-    console.table(dbJson);
+    console.table(dbData);
   }
 
 

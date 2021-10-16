@@ -7,20 +7,21 @@ db = require("./sequel")
 
 const viewAllEmployees = async () => {
   const dbData = await db.findAllEmployees();
-  console.log(dbData)
+  console.table(dbData)
 
 }
 
 
 const viewAllDept = async () => {
     const dbData = await db.findAllDept();
-    console.log(dbData);
+    console.table(dbData);
   }
 
-
+//THIS IS THE LINE I AM WORKING WITH
   const viewAllRoles = async () => {
-    const dbData = await db.findAllRoles();
-    console.log(dbData);
+    dbData = await db.findAllRoles()
+    //This method does not work
+    console.table(dbJson);
   }
 
 

@@ -8,20 +8,20 @@ db = require("./sequel")
 const viewAllEmployees = async () => {
   const dbData = await db.findAllEmployees();
   console.table(dbData[0])
-
+  mainMenu()
 }
 
 
 const viewAllDept = async () => {
     const dbData = await db.findAllDept();
-    console.table(dbData);
+    console.table(dbData[0]);
+    mainMenu()
   }
 
-//THIS IS THE LINE I AM WORKING WITH
   const viewAllRoles = async () => {
     dbData = await db.findAllRoles()
-    //This method does not work
-    console.table(dbData);
+    console.table(dbData[0]);
+    mainMenu()
   }
 
 
@@ -33,9 +33,11 @@ const viewAllDept = async () => {
       },
     ]).then((answer) => {
       insertADept(answer.name)
+      mainMenu()
     })
       .catch((err) => {
         console.log(err)
+        mainMenu()
       })
   }
 
@@ -55,9 +57,11 @@ const viewAllDept = async () => {
       }
     ]).then((answer) => {
       insertARole(answer.title, answer.salary, answer.dept_id)
+      mainMenu()
     })
       .catch((err) => {
         console.log(err)
+        mainMenu()
       })
   }
 
@@ -82,9 +86,11 @@ const viewAllDept = async () => {
       }
     ]).then((answer) => {
       insertAnEmp(answer.first_name, answer.last_name, answer.role_id, answer.manager_id)
+      mainMenu()
     })
       .catch((err) => {
         console.log(err)
+        mainMenu()
       })
   }
 
@@ -101,9 +107,11 @@ const viewAllDept = async () => {
       }
     ]).then((answers) => {
       updateARole(answers.employee, answers.role)
+      mainMenu()
     })
       .catch((err) => {
         console.log(err)
+        mainMenu()
       })
   }
 

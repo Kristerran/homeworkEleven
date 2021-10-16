@@ -7,14 +7,14 @@ class db {
     }
 
     findAllEmployees() {
-        return this.connection.promise().query(
-            "SELECT e.first_name, e.last_name, e.role_id AS emp_role, e.manager_id AS m FROM employee e LEFT JOIN emp_role ON e.role_id = emp_role.id LEFT JOIN employee m ON e.manager_id = m.id;"
-            )
-    }
 
+        return this.connection.promise().query(
+            "SELECT e.first_name, e.last_name, CONCAT(m.first_name, m.last_name) AS Manager, emp_role.title AS role FROM employee e JOIN emp_role ON e.role_id = emp_role.id  LEFT JOIN employee m ON e.manager_id = m.id;"
+            )
+        }
     findAllRoles() {
         return this.connection.promise().query(
-            "SELECT emp_role.title, emp_role.salary, emp_role.dept_id As dept FROM emp_role LEFT JOIN dept ON emp_role.dept_id = dept.id ;"
+            "SELECT emp_role.title, emp_role.salary, dept.dept_name As dept FROM emp_role LEFT JOIN dept ON emp_role.dept_id = dept.id ;"
         )
     }
 
